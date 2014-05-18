@@ -34,6 +34,7 @@ use Term::ANSIColor;
         sub {
             my ($orig, $sth, @binds) = @_;
             my $sql = $sth->{Database}->{Statement};
+            return if ($sql =~ /^SHOW TABLES/);
             for my $bind (@binds) {
                 $sql =~ s/\?/$bind/;
             }
@@ -236,6 +237,7 @@ sub add_prof {
             my $cb_data;
             if ($callback) {
                 my $v = $callback->($orig, @_);
+                return unless defined $v;
                 if (ref $v eq "ARRAY") {
                     $cb_info = sprintf $v->[0], map { $v->[2]->{$_} } @{$v->[1]};
                     $cb_data = $v->[2];
