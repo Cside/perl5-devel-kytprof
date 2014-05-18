@@ -30,7 +30,7 @@ close $fh;
     my $sth = $dbi->prepare('insert into mock (id, name) values (?,?)');
     $sth->execute(1,'nekokak');
 
-    like $buffer, qr/\[DBI::st\]  insert into mock \(id, name\) values \(\?,\?\) \(bind: 1, nekokak\) \(1 rows\)  \|/;
+    like $buffer, qr/\[DBI::st\]  insert into mock \(id, name\) values \(1,nekokak\) \(1 rows\)  \|/;
 
     close $fh;
 }

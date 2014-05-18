@@ -49,13 +49,14 @@ use Term::ANSIColor;
         sub {
             my ($orig, $sth, @binds) = @_;
             my $sql = $sth->{Database}->{Statement};
-            my $bind_info = scalar(@binds) ? '(bind: '.join(', ', map { defined $_ ? $_ : 'undef' } @binds).')' : '';
+            for my $bind (@binds) {
+                $sql =~ s/\?/$bind/;
+            }
             return [
-                '%s %s (%d rows)',
-                ['sql', 'sql_binds', 'rows'],
+                '%s (%d rows)',
+                ['sql', 'rows'],
                 {
                     sql => $sql,
-                    sql_binds => $bind_info,
                     rows => $sth->rows,
                 },
             ];
