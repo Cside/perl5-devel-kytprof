@@ -34,7 +34,7 @@ use Term::ANSIColor;
         sub {
             my ($orig, $sth, @binds) = @_;
             my $sql = $sth->{Database}->{Statement};
-            return if ($sql =~ /^SHOW TABLES/);
+            return if ($sql =~ /^SHOW TABLES/i);
             for my $bind (@binds) {
                 $sql =~ s/\?/$bind/;
             }
