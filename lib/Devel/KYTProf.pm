@@ -29,21 +29,6 @@ use Term::ANSIColor;
 'DBI'->require and do {
     no warnings 'redefine';
     __PACKAGE__->add_prof(
-        'DBI',
-        'connect',
-        sub {
-            my ($orig, $class, $dsn, $user, $pass, $attr) = @_;
-            return [
-                '%s %s',
-                ['dbi_connect_method', 'dsn'],
-                {
-                    dbi_connect_method => $attr->{dbi_connect_method} || 'connect',
-                    dsn => $dsn,
-                },
-            ];
-        }
-    );
-    __PACKAGE__->add_prof(
         'DBI::st',
         'execute',
         sub {
